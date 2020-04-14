@@ -1,3 +1,4 @@
+// rewrites HTML elements
 class ElementHandler {
   // sets correct variant (for button color and custom text)
   constructor(index) {
@@ -5,8 +6,7 @@ class ElementHandler {
   }
 
   element(element) {
-    // An incoming element, such as `div`
-    console.log(`Incoming element: ${element.tagName}`);
+    // incoming HTML element
     if (element.tagName === 'title') {
       element.replace('<title>Hacked!</title>', { html: true });
     } else if (element.tagName === 'h1') {
@@ -60,14 +60,29 @@ async function handleRequest(request) {
       urls = data;
     });
 
-  // select url at random (A/B testing)
   let index;
-  Math.random() < 0.5 ? (index = 0) : (index = 1);
 
-  // return response to randomly selected url
-  const res = await fetch(urls.variants[index]).then((response) => {
+  // check if user has already seen one variant with cookies
+  const cookie = request.headers.get('cookie');
+
+  if (cookie && cookie.includes('variant=variant1')) {
+    index = 0;
+  } else if (cookie && cookie.includes('variant=variant2')) {
+    index = 1;
+  } else {
+    // select URL at random (A/B testing)
+    index = Math.random() < 0.5 ? (index = 0) : (index = 1);
+  }
+
+  // set response to randomly selected url or variant saved in cookies
+  let res = await fetch(urls.variants[index]).then((response) => {
     return response;
   });
 
+  // duplicate response to modify headers with new cookie
+  res = new Response(res.body, res);
+  res.headers.append('Set-Cookie', `variant=variant${(index + 1).toString()}; path=/`);
+
+  // return response with HTMLRewriter
   return new HTMLRewriter().on('*', new ElementHandler(index)).transform(res);
 }
