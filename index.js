@@ -17,12 +17,12 @@ class ElementHandler {
     } else if (element.tagName === 'p') {
       if (this.variant === 1) {
         element.replace(
-          '<p id="description" class="text-sm leading-5 text-gray-500">This is my custom Variant 1</p>',
+          '<p id="description" class="text-sm leading-5 text-gray-500">This is my custom Variant 1 (delete cookies to possibly see variant 2!)</p>',
           { html: true }
         );
       } else {
         element.replace(
-          '<p id="description" class="text-sm leading-5 text-gray-500">This is my custom Variant 2</p>',
+          '<p id="description" class="text-sm leading-5 text-gray-500">This is my custom Variant 2 (delete cookies to possibly see variant 1!)</p>',
           { html: true }
         );
       }
