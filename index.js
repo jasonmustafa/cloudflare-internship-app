@@ -1,5 +1,3 @@
-// global - variant
-
 class ElementHandler {
   // sets correct variant (for button color and custom text)
   constructor(index) {
@@ -10,7 +8,7 @@ class ElementHandler {
     // An incoming element, such as `div`
     console.log(`Incoming element: ${element.tagName}`);
     if (element.tagName === 'title') {
-      element.replace('Hacked!', { html: true });
+      element.replace('<title>Hacked!</title>', { html: true });
     } else if (element.tagName === 'h1') {
       element.replace(
         '<h1 id="title" class="text-lg leading-6 font-medium text-gray-900">I have taken over your webpage! >:D</h1>',
@@ -41,14 +39,6 @@ class ElementHandler {
         );
       }
     }
-  }
-
-  comments(comment) {
-    // An incoming comment
-  }
-
-  text(text) {
-    // An incoming piece of text
   }
 }
 
