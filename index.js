@@ -1,6 +1,6 @@
-// rewrites HTML elements
+// rewrite HTML elements
 class ElementHandler {
-  // sets correct variant (for button color and custom text)
+  // set correct variant (for button color and custom text)
   constructor(index) {
     this.variant = index + 1;
   }
